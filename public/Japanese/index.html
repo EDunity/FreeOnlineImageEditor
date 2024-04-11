@@ -1,0 +1,22 @@
+<html lang="ja">
+
+<head>
+    <title>・Free Online Image Editor・</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/public/Files/Texts/FreeOnlineImageEditor.js"></script>
+    <link type="text/css" rel="stylesheet" href="/public/Files/Texts/Style.css">
+</head>
+
+<body>
+    <hr>
+    <div class="Parent" oncontextmenu="return false;">
+        <div id="Parent">
+        </div>
+        <input type="file" id="Import" accept="image/png, image/jpg, image/jpeg, image/webp" multiple onclick="Clear_FilePath()" onchange="Load_Files()" style="display:none;">
+    </div>
+    <hr>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+body
+{
+    background-color:#FFFFFF;
+    font-family:sans-serif;
+}
+.Title
+{
+    text-align:center;
+}
+.Parent
+{
+    display:block;
+    text-align:center;
+}
+.Child
+{
+    display:inline-block;
+    text-align:center;
+    vertical-align:top;
+}
+.Description
+{
+    border:1px dashed;
+    padding:10px 10px 10px 10px;
+}
+.DescriptionText
+{
+    text-align:left;
+    width:500px;
+}
+.Image1
+{
+    width:200px;
+    height:200px;
+    border:2px solid #000000;
+    border-radius:100px;
+}
+.Image2
+{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+}
