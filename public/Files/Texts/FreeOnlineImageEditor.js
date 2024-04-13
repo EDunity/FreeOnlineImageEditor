@@ -175,7 +175,7 @@ class Photo {
     }
 
     Update() {
-        if(this.Graphic != null) this.Graphic.remove();
+        if (this.Graphic != null) this.Graphic.remove();
         this.Graphic = createGraphics(this.Width, this.Height);
         this.Graphic.loadPixels();
         this.Graphic.pixels.set(this.Data1D);
@@ -195,111 +195,114 @@ class Photo {
         return Color_;
     }
     Set(_Index2s, _Color) {
-        if (this.HasData()) {
-            _Index2s = _Index2s.filter(function (Item1, i, Array) {
-                return Array.findIndex(function (Item2) {
-                    return Item1.IsEqual(Item2);
-                }) === i
-            });
+        _Index2s = _Index2s.filter(function (Item1, i, Array) {
+            return Array.findIndex(function (Item2) {
+                return Item1.IsEqual(Item2);
+            }) === i
+        });
 
-            for (let i = 0; i < _Index2s.length; i++) {
-                const Index2 = _Index2s[i];
+        for (let i = 0; i < _Index2s.length; i++) {
+            const Index2 = _Index2s[i];
 
-                if (!this.IndexIsOnPhoto(Index2.X, Index2.Y)) {
-                    continue;
-                }
-
-                const Index = (this.Width * Index2.Y + Index2.X) * 4;
-
-                this.Data1D[Index + 0] = _Color.R;
-                this.Data1D[Index + 1] = _Color.G;
-                this.Data1D[Index + 2] = _Color.B;
-                this.Data1D[Index + 3] = _Color.A;
-
-                this.Graphic.pixels[Index + 0] = _Color.R;
-                this.Graphic.pixels[Index + 1] = _Color.G;
-                this.Graphic.pixels[Index + 2] = _Color.B;
-                this.Graphic.pixels[Index + 3] = _Color.A;
+            if (!this.IndexIsOnPhoto(Index2.X, Index2.Y)) {
+                continue;
             }
 
-            this.Graphic.updatePixels();
+            const Index = (this.Width * Index2.Y + Index2.X) * 4;
+
+            this.Data1D[Index + 0] = _Color.R;
+            this.Data1D[Index + 1] = _Color.G;
+            this.Data1D[Index + 2] = _Color.B;
+            this.Data1D[Index + 3] = _Color.A;
+
+            this.Graphic.pixels[Index + 0] = _Color.R;
+            this.Graphic.pixels[Index + 1] = _Color.G;
+            this.Graphic.pixels[Index + 2] = _Color.B;
+            this.Graphic.pixels[Index + 3] = _Color.A;
         }
+
+        this.Graphic.updatePixels();
     }
     GradatedSet(_Index2s, _CenterIndexX, _CenterIndexY, _Radius, _Level, _Color) {
-        if (this.HasData()) {
-            _Index2s = _Index2s.filter(function (Item1, i, Array) {
-                return Array.findIndex(function (Item2) {
-                    return Item1.IsEqual(Item2);
-                }) === i
-            });
+        _Index2s = _Index2s.filter(function (Item1, i, Array) {
+            return Array.findIndex(function (Item2) {
+                return Item1.IsEqual(Item2);
+            }) === i
+        });
 
-            for (let i = 0; i < _Index2s.length; i++) {
-                const Index2 = _Index2s[i];
+        for (let i = 0; i < _Index2s.length; i++) {
+            const Index2 = _Index2s[i];
 
-                if (!this.IndexIsOnPhoto(Index2.X, Index2.Y)) {
-                    continue;
-                }
-
-                let Dist = Mathf.Dist(_CenterIndexX, _CenterIndexY, Index2.X, Index2.Y);
-                Dist = Mathf.Clamp(Dist, 0, _Radius);
-
-                const Tone = floor(Dist / ((_Radius / _Level) + 0.01));
-
-                let Ratio = map(Tone, 0, _Level, 0, 1);
-                Ratio = Mathf.Clamp01(Ratio);
-
-                const Color_ = _Color.Blend(this.Get(Index2.X, Index2.Y), Ratio);
-
-                this.Set([Index2], Color_);
+            if (!this.IndexIsOnPhoto(Index2.X, Index2.Y)) {
+                continue;
             }
+
+            let Dist = Mathf.Dist(_CenterIndexX, _CenterIndexY, Index2.X, Index2.Y);
+            Dist = Mathf.Clamp(Dist, 0, _Radius);
+
+            const Tone = floor(Dist / ((_Radius / _Level) + 0.01));
+
+            let Ratio = map(Tone, 0, _Level, 0, 1);
+            Ratio = Mathf.Clamp01(Ratio);
+
+            const Color_ = _Color.Blend(this.Get(Index2.X, Index2.Y), Ratio);
+
+            this.Set([Index2], Color_);
         }
     }
     Fill(_IndexX, _IndexY, _Color) {
-        if (this.HasData()) {
-            if (!this.IndexIsOnPhoto(_IndexX, _IndexY)) {
-                return;
-            }
+        if (!this.IndexIsOnPhoto(_IndexX, _IndexY)) {
+            return;
+        }
 
-            const Color_ = this.Get(_IndexX, _IndexY);
+        const Color_ = this.Get(_IndexX, _IndexY);
 
-            if (_Color.IsEqual(Color_)) {
-                return;
-            }
+        if (_Color.IsEqual(Color_)) {
+            return;
+        }
 
-            let Index2s = [];
+        let Index2s = [];
 
-            this.Set([new Vector2Int(_IndexX, _IndexY)], _Color);
-            Index2s.push(new Vector2Int(_IndexX, _IndexY));
+        this.Set([new Vector2Int(_IndexX, _IndexY)], _Color);
+        Index2s.push(new Vector2Int(_IndexX, _IndexY));
 
-            while (true) {
-                let Index2s_ = [];
+        while (true) {
+            let Index2s_ = [];
 
-                for (let i = 0; i < Index2s.length; i++) {
-                    for (let j = -1; j <= 1; j++) {
-                        for (let k = -1; k <= 1; k++) {
-                            if (j == 0 && k == 0 || j * k != 0) {
-                                continue;
-                            }
+            for (let i = 0; i < Index2s.length; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    for (let k = -1; k <= 1; k++) {
+                        if (j == 0 && k == 0 || j * k != 0) {
+                            continue;
+                        }
 
-                            const IndexX = Index2s[i].X + j;
-                            const IndexY = Index2s[i].Y + k;
+                        const IndexX = Index2s[i].X + j;
+                        const IndexY = Index2s[i].Y + k;
 
-                            if (!this.IndexIsOnPhoto(IndexX, IndexY)) {
-                                continue;
-                            }
+                        if (!this.IndexIsOnPhoto(IndexX, IndexY)) {
+                            continue;
+                        }
 
-                            if (this.Get(IndexX, IndexY).IsEqual(Color_)) {
-                                this.Set([new Vector2Int(IndexX, IndexY)], _Color);
-                                Index2s_.push(new Vector2Int(IndexX, IndexY));
-                            }
+                        if (this.Get(IndexX, IndexY).IsEqual(Color_)) {
+                            this.Set([new Vector2Int(IndexX, IndexY)], _Color);
+                            Index2s_.push(new Vector2Int(IndexX, IndexY));
                         }
                     }
                 }
+            }
 
-                Index2s = Index2s_;
+            Index2s = Index2s_;
 
-                if (Index2s_.length == 0) {
-                    break;
+            if (Index2s_.length == 0) {
+                break;
+            }
+        }
+    }
+    SelectedFill(_MinIndexX, _MinIndexY, _MaxIndexX, _MaxIndexY, _Color) {
+        for (let i = _MinIndexX; i <= _MaxIndexX; i++) {
+            for (let j = _MinIndexY; j <= _MaxIndexY; j++) {
+                if (this.IndexIsOnPhoto(i, j)) {
+                    this.Set([new Vector2Int(i, j)], _Color);
                 }
             }
         }
@@ -454,18 +457,18 @@ class Photo {
     }
     Edge() {
         const KernelX =
-        [
-            [-1, 0, 1],
-            [-2, 0, 2],
-            [-1, 0, 1],
-        ];
+            [
+                [-1, 0, 1],
+                [-2, 0, 2],
+                [-1, 0, 1],
+            ];
 
         const KernelY =
-        [
-            [1, 2, 1],
-            [0, 0, 0],
-            [-1, -2, -1],
-        ];
+            [
+                [1, 2, 1],
+                [0, 0, 0],
+                [-1, -2, -1],
+            ];
 
         const Index = (KernelX.length - 1) * 0.5;
 
@@ -789,8 +792,7 @@ class Photo {
         const Data1D_Photo = [];
         for (let i = _MinIndexY; i <= _MaxIndexY; i++) {
             for (let j = _MinIndexX; j <= _MaxIndexX; j++) {
-                if(this.IndexIsOnPhoto(i, j))
-                {
+                if (this.IndexIsOnPhoto(i, j)) {
                     const Index = (this.Width * i + j) * 4;
 
                     Data1D_Photo.push(this.Data1D[Index + 0]);
@@ -798,8 +800,7 @@ class Photo {
                     Data1D_Photo.push(this.Data1D[Index + 2]);
                     Data1D_Photo.push(this.Data1D[Index + 3]);
                 }
-                else
-                {
+                else {
                     Data1D_Photo.push(255);
                     Data1D_Photo.push(255);
                     Data1D_Photo.push(255);
@@ -870,7 +871,7 @@ class UI {
         this.IsBeingLeftDragged = false;
         this.IsBeingCenterPressed = false;
         this.IsBeingCenterDragged = false;
-        if(this.Graphic != null) this.Graphic.remove();
+        if (this.Graphic != null) this.Graphic.remove();
         this.Graphic = createGraphics(this.Width - 1, this.Height - 1);
         this.UIs = [];
     }
@@ -1553,6 +1554,10 @@ class TabBarX extends UI {
         this.Index = this.Texts.length - 1;
     }
     Remove(_Index) {
+        if (this.TabGraphics[_Index] != null) this.TabGraphics[_Index].remove();
+        this.TabGraphics.splice(_Index, 1);
+        if (this.TextGraphics[_Index] != null) this.TextGraphics[_Index].remove();
+        this.TextGraphics.splice(_Index, 1);
         this.Texts.splice(_Index, 1);
 
         this.Update();
@@ -1568,12 +1573,12 @@ class TabBarX extends UI {
         this.TabGraphics = new Array(this.Texts.length);
         this.TextGraphics = new Array(this.Texts.length);
         for (let i = 0; i < this.Texts.length; i++) {
-            if(this.TabGraphics[i] != null) this.TabGraphics[i].remove();
+            if (this.TabGraphics[i] != null) this.TabGraphics[i].remove();
             this.TabGraphics[i] = createGraphics(this.TabWidth - Space_Tab, this.TabHeight);
-            if(this.TextGraphics[i] != null) this.TextGraphics[i].remove();
+            if (this.TextGraphics[i] != null) this.TextGraphics[i].remove();
             this.TextGraphics[i] = createGraphics(this.TabWidth - Width_Remove - Space_Text, this.TabHeight);
         }
-        if(this.AddGraphic != null) this.AddGraphic.remove();
+        if (this.AddGraphic != null) this.AddGraphic.remove();
         this.AddGraphic = createGraphics(this.TabWidth - Space_Tab, this.TabHeight);
     }
 
@@ -1814,6 +1819,10 @@ class TabBarY extends UI {
         this.Index = this.Texts.length - 1;
     }
     Remove(_Index) {
+        if (this.TabGraphics[_Index] != null) this.TabGraphics[_Index].remove();
+        this.TabGraphics.splice(_Index, 1);
+        if (this.TextGraphics[_Index] != null) this.TextGraphics[_Index].remove();
+        this.TextGraphics.splice(_Index, 1);
         this.Texts.splice(_Index, 1);
 
         this.Update();
@@ -1829,12 +1838,12 @@ class TabBarY extends UI {
         this.TabGraphics = new Array(this.Texts.length);
         this.TextGraphics = new Array(this.Texts.length);
         for (let i = 0; i < this.Texts.length; i++) {
-            if(this.TabGraphics[i] != null) this.TabGraphics[i].remove();
+            if (this.TabGraphics[i] != null) this.TabGraphics[i].remove();
             this.TabGraphics[i] = createGraphics(this.TabWidth, this.TabHeight - Space_Tab);
-            if(this.TextGraphics[i] != null) this.TextGraphics[i].remove();
+            if (this.TextGraphics[i] != null) this.TextGraphics[i].remove();
             this.TextGraphics[i] = createGraphics(this.TabWidth - Width_Remove - Space_Text, this.TabHeight);
         }
-        if(this.AddGraphic != null) this.AddGraphic.remove();
+        if (this.AddGraphic != null) this.AddGraphic.remove();
         this.AddGraphic = createGraphics(this.TabWidth, this.TabHeight - Space_Tab);
     }
 
@@ -1960,9 +1969,9 @@ class ButtonBarX extends UI {
         this.TabGraphics = new Array(this.Texts.length);
         this.TextGraphics = new Array(this.Texts.length);
         for (let i = 0; i < this.Texts.length; i++) {
-            if(this.TabGraphics[i] != null) this.TabGraphics[i].remove();
+            if (this.TabGraphics[i] != null) this.TabGraphics[i].remove();
             this.TabGraphics[i] = createGraphics(this.TabWidth - Space_Tab, this.TabHeight);
-            if(this.TextGraphics[i] != null) this.TextGraphics[i].remove();
+            if (this.TextGraphics[i] != null) this.TextGraphics[i].remove();
             this.TextGraphics[i] = createGraphics(this.TabWidth, this.TabHeight);
         }
     }
@@ -2072,9 +2081,9 @@ class ButtonBarY extends UI {
         this.TabGraphics = new Array(this.Texts.length);
         this.TextGraphics = new Array(this.Texts.length);
         for (let i = 0; i < this.Texts.length; i++) {
-            if(this.TabGraphics[i] != null) this.TabGraphics[i].remove();
+            if (this.TabGraphics[i] != null) this.TabGraphics[i].remove();
             this.TabGraphics[i] = createGraphics(this.TabWidth, this.TabHeight - Space_Tab);
-            if(this.TextGraphics[i] != null) this.TextGraphics[i].remove();
+            if (this.TextGraphics[i] != null) this.TextGraphics[i].remove();
             this.TextGraphics[i] = createGraphics(this.TabWidth, this.TabHeight);
         }
     }
@@ -2093,7 +2102,7 @@ class ScrollBarX extends UI {
         this.TextSize = _TextSize;
         this.PointerWidth = this.Width * 0.25;
         this.PointerHeight = this.Height;
-        if(this.TextGraphic != null) this.TextGraphic.remove();
+        if (this.TextGraphic != null) this.TextGraphic.remove();
         this.TextGraphic = createGraphics(this.PointerWidth, this.PointerHeight);
     }
 
@@ -2230,7 +2239,7 @@ class ScrollBarY extends UI {
         this.TextSize = _TextSize;
         this.PointerWidth = this.Width;
         this.PointerHeight = this.Height * 0.25;
-        if(this.TextGraphic != null) this.TextGraphic.remove();
+        if (this.TextGraphic != null) this.TextGraphic.remove();
         this.TextGraphic = createGraphics(this.PointerWidth, this.PointerHeight);
     }
 
@@ -2365,9 +2374,9 @@ class ModalMenu extends UI {
         this.TextSize = _TextSize;
         this.UIs = _UIs;
         this.REMOVE = _REMOVE;
-        if(this.ShadowGraphic != null) this.ShadowGraphic.remove();
+        if (this.ShadowGraphic != null) this.ShadowGraphic.remove();
         this.ShadowGraphic = createGraphics(Width_Sketch, Height_Sketch);
-        if(this.TextGraphic != null) this.TextGraphic.remove();
+        if (this.TextGraphic != null) this.TextGraphic.remove();
         this.TextGraphic = createGraphics(this.Width - Width_Remove - Space_Text, this.TextSize * 2);
     }
 
@@ -3048,6 +3057,18 @@ class PhotoEditor extends UI {
                     if (this.KeyStates["a"]) {
                         PaintTools[TabBarY_PaintTool.Index].Index2s = FilledRectAlgorithm(0, 0, this.Photo.Width - 1, this.Photo.Height - 1);
                     }
+                    if (this.KeyStates["g"]) {
+                        if (PaintTools[TabBarY_PaintTool.Index].Index2s.length > 0) {
+                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y < Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X > Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y > Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+
+                            this.Photo.SelectedFill(MinIndexX, MinIndexY, MaxIndexX, MaxIndexY, ColorEditor_.Label_Sample.Color.Copy());
+
+                            this.Save();
+                        }
+                    }
                     else if (this.KeyStates["c"]) {
                         if (PaintTools[TabBarY_PaintTool.Index].Index2s.length > 0) {
                             const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
@@ -3073,22 +3094,29 @@ class PhotoEditor extends UI {
                         if (PaintTools[TabBarY_PaintTool.Index].Photo.HasData()) {
                             const Photo_ = PaintTools[TabBarY_PaintTool.Index].Photo.Copy();
 
-                            const PhotoEditor_ = new PhotoEditor(
-                                CornerPosX_PhotoEditor,
-                                CornerPosY_PhotoEditor,
-                                Width_PhotoEditor,
-                                Height_PhotoEditor,
-                                Color_LightGray,
-                                InitialZoom,
-                                Photo_,
-                                Photo_.Background()
-                            );
-                            PhotoEditor_.SetIsAvailable(false);
-                            PhotoEditor_.PushUI(RenderQueue_General);
-                            PhotoEditors.push(PhotoEditor_);
-                            TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
+                            if (PhotoEditors.every(Item => Item.Photo.Name != Photo_.Name)) {
+                                const PhotoEditor_ = new PhotoEditor(
+                                    CornerPosX_PhotoEditor,
+                                    CornerPosY_PhotoEditor,
+                                    Width_PhotoEditor,
+                                    Height_PhotoEditor,
+                                    Color_LightGray,
+                                    InitialZoom,
+                                    Photo_,
+                                    Photo_.Background()
+                                );
+                                PhotoEditor_.SetIsAvailable(false);
+                                PhotoEditor_.PushUI(RenderQueue_General);
+                                PhotoEditors.push(PhotoEditor_);
+                                TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
 
-                            Update_PhotoEditor();
+                                Update_PhotoEditor();
+
+                                Socket.emit("Create_Image", Photo_.Name, Photo_.Type, Photo_.Width, Photo_.Height, CopyPrimitiveArray1D(Photo_.Data1D));
+                            }
+                            else {
+                                alert("Image already exists.");
+                            }
                         }
                     }
                 }
@@ -3116,8 +3144,7 @@ class PhotoEditor extends UI {
         this.IsLeftReleased();
         this.IsCenterReleased();
 
-        if(PaintTools.length > 0)
-        {
+        if (PaintTools.length > 0) {
             PaintTools[TabBarY_PaintTool.Index].Index2s = [];
             PaintTools[TabBarY_PaintTool.Index].Pos2s = [];
         }
@@ -3134,6 +3161,8 @@ class PhotoEditor extends UI {
         if (this.History.length > MaxHistory) {
             this.History.splice(this.History.length - 1);
         }
+
+        Socket.emit("Update_Image", this.Photo.Name, this.Photo.Type, this.Photo.Width, this.Photo.Height, CopyPrimitiveArray1D(this.Photo.Data1D));
     }
 
     Copy() {
@@ -3773,24 +3802,31 @@ function setup() {
 
                 const Photo_ = new Photo(Name_Photo, Type_Photo, Width_Photo, Height_Photo, Data1D_Photo);
 
-                const PhotoEditor_ = new PhotoEditor(
-                    CornerPosX_PhotoEditor,
-                    CornerPosY_PhotoEditor,
-                    Width_PhotoEditor,
-                    Height_PhotoEditor,
-                    Color_LightGray,
-                    InitialZoom,
-                    Photo_,
-                    Photo_.Background()
-                );
-                PhotoEditor_.SetIsAvailable(false);
-                PhotoEditor_.PushUI(RenderQueue_General);
-                PhotoEditors.push(PhotoEditor_);
-                TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
+                if (PhotoEditors.every(Item => Item.Photo.Name != Photo_.Name)) {
+                    const PhotoEditor_ = new PhotoEditor(
+                        CornerPosX_PhotoEditor,
+                        CornerPosY_PhotoEditor,
+                        Width_PhotoEditor,
+                        Height_PhotoEditor,
+                        Color_LightGray,
+                        InitialZoom,
+                        Photo_,
+                        Photo_.Background()
+                    );
+                    PhotoEditor_.SetIsAvailable(false);
+                    PhotoEditor_.PushUI(RenderQueue_General);
+                    PhotoEditors.push(PhotoEditor_);
+                    TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
 
-                Update_PhotoEditor();
+                    Update_PhotoEditor();
 
-                ModalMenu_CreateImage.Remove();
+                    ModalMenu_CreateImage.Remove();
+
+                    Socket.emit("Create_Image", Photo_.Name, Photo_.Type, Photo_.Width, Photo_.Height, CopyPrimitiveArray1D(Photo_.Data1D));
+                }
+                else {
+                    alert("Image already exists.");
+                }
             }
         );
         ModalMenu_CreateImage.UIs.push(UI_4);
@@ -4139,6 +4175,7 @@ function setup() {
 
                 if (Text == "Resize") {
                     PhotoEditors[TabBarX_PhotoEditor.Index].Photo = PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Resize(Width_Photo, Height_Photo);
+                    PhotoEditors[TabBarX_PhotoEditor.Index].BackgroundPhoto = PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Background();
 
                     PhotoEditors[TabBarX_PhotoEditor.Index].Save();
                 }
@@ -4748,12 +4785,6 @@ function setup() {
                 else if (Text == "Leave") {
                     ModalMenu_Room.Remove();
 
-                    if(ID == null)
-                    {
-                        alert("No connection to server.");
-                        return;
-                    }
-
                     Users = null;
                     Rooms = null;
 
@@ -4820,7 +4851,23 @@ function setup() {
         );
         ModalMenu_CreateRoom.UIs.push(UI_2);
 
-        const UI_3 = new ButtonBarY(
+        const UI_3 = new LabeledInputField(
+            CornerPosX,
+            CornerPosY + (Height_UI + Space_UI3) * 2,
+            Width,
+            Height_UI,
+            Color_LightGray,
+            "User Name",
+            Color_White,
+            "",
+            20,
+            TextType_Text,
+            function () {//ENTER
+            }
+        );
+        ModalMenu_CreateRoom.UIs.push(UI_3);
+
+        const UI_4 = new ButtonBarY(
             CornerPosX,
             CornerPosY + (Height_UI + Space_UI3) * 6,
             Width,
@@ -4833,23 +4880,19 @@ function setup() {
 
                 const Password_Room = ModalMenu_CreateRoom.UIs[1].InputField.Text;
 
-                if (Name_Room == "" || Password_Room == "") {
+                const Name_User = ModalMenu_CreateRoom.UIs[2].InputField.Text;
+
+                if (Name_Room == "" || Password_Room == "" || Name_User == "") {
                     alert("All blanks must be filled in.");
                     return;
                 }
 
-                if(ID == null)
-                {
-                    alert("No connection to server.");
-                    return;
-                }
-
-                Socket.emit("Create_Room", Name_Room, Password_Room);
-
                 ModalMenu_CreateRoom.Remove();
+
+                Socket.emit("Create_Room", Name_Room, Password_Room, Name_User);
             }
         );
-        ModalMenu_CreateRoom.UIs.push(UI_3);
+        ModalMenu_CreateRoom.UIs.push(UI_4);
 
         ModalMenu_CreateRoom.SetIsVisible(false);
         ModalMenu_CreateRoom.PushUI(RenderQueue_Modal);
@@ -4908,7 +4951,23 @@ function setup() {
         );
         ModalMenu_JoinRoom.UIs.push(UI_2);
 
-        const UI_3 = new ButtonBarY(
+        const UI_3 = new LabeledInputField(
+            CornerPosX,
+            CornerPosY + (Height_UI + Space_UI3) * 2,
+            Width,
+            Height_UI,
+            Color_LightGray,
+            "User Name",
+            Color_White,
+            "",
+            20,
+            TextType_Text,
+            function () {//ENTER
+            }
+        );
+        ModalMenu_JoinRoom.UIs.push(UI_3);
+
+        const UI_4 = new ButtonBarY(
             CornerPosX,
             CornerPosY + (Height_UI + Space_UI3) * 6,
             Width,
@@ -4921,23 +4980,19 @@ function setup() {
 
                 const Password_Room = ModalMenu_JoinRoom.UIs[1].InputField.Text;
 
-                if (Name_Room == "" || Password_Room == "") {
+                const Name_User = ModalMenu_JoinRoom.UIs[2].InputField.Text;
+
+                if (Name_Room == "" || Password_Room == "" || Name_User == "") {
                     alert("All blanks must be filled in.");
                     return;
                 }
 
-                if(ID == null)
-                {
-                    alert("No connection to server.");
-                    return;
-                }
-
-                Socket.emit("Join_Room", Name_Room, Password_Room);
-
                 ModalMenu_JoinRoom.Remove();
+
+                Socket.emit("Join_Room", Name_Room, Password_Room, Name_User);
             }
         );
-        ModalMenu_JoinRoom.UIs.push(UI_3);
+        ModalMenu_JoinRoom.UIs.push(UI_4);
 
         ModalMenu_JoinRoom.SetIsVisible(false);
         ModalMenu_JoinRoom.PushUI(RenderQueue_Modal);
@@ -5008,6 +5063,9 @@ function setup() {
                 ModalMenu_CreateImage.Open();
             },
             function (_Index) {//REMOVE
+                Socket.emit("Remove_Image", PhotoEditors[_Index].Photo.Name);
+
+                if (PhotoEditors[_Index].Photo.Graphic != null) PhotoEditors[_Index].Photo.Graphic.remove();
                 PhotoEditors[_Index].SetIsVisible(false);
                 PhotoEditors.splice(_Index, 1);
 
@@ -5056,6 +5114,7 @@ function setup() {
                 ModalMenu_CreatePallet.Open();
             },
             function (_Index) {//REMOVE
+                if (Pallets[_Index].Photo.Graphic != null) Pallets[_Index].Photo.Graphic.remove();
                 Pallets[_Index].SetIsVisible(false);
                 Pallets.splice(_Index, 1);
 
@@ -5326,11 +5385,6 @@ function setup() {
     Update_PhotoEditor();
     Update_Pallet();
     Update_PaintTool();
-
-    Socket.on("connect", function()
-    {
-        Socket.emit("Setup");
-    });
 }
 function draw() {
     background(Color_Background.ToColorP5js());
@@ -5341,31 +5395,44 @@ function draw() {
         }
     }
 
-    if(ID != null && Users != null && Rooms != null)
-    {
-        const RoomName = Users[ID].RoomName;
+    if (ID != null && Users != null && Rooms != null) {
+        if (ID in Users) {
+            const RoomName = Users[ID].RoomName;
 
-        for(let i = 0; i < Rooms[RoomName].IDs.length; i++)
-        {
-            if(Rooms[RoomName].IDs[i] == ID)
-            {
-                continue;
-            }
-            else
-            {
+            for (let i = 0; i < Rooms[RoomName].IDs.length; i++) {
+                if (Rooms[RoomName].IDs[i] == ID) {
+                    continue;
+                }
+
+                if (!(Rooms[RoomName].IDs[i] in Users)) {
+                    continue;
+                }
+
+                const UserName = Users[Rooms[RoomName].IDs[i]].UserName;
                 const MouseX = Users[Rooms[RoomName].IDs[i]].MouseX;
                 const MouseY = Users[Rooms[RoomName].IDs[i]].MouseY;
+                const R = Users[Rooms[RoomName].IDs[i]].R;
+                const G = Users[Rooms[RoomName].IDs[i]].G;
+                const B = Users[Rooms[RoomName].IDs[i]].B;
+                const A = Users[Rooms[RoomName].IDs[i]].A;
 
                 fill(0, 255);
-                noStroke();
+                stroke(0, 63);
+                strokeWeight(3);
                 textAlign("left", "center");
-                textSize(10);
-                text(ID, MouseX + 5, MouseY - 5);
-                fill(255, 0, 0, 255);
-                noStroke();
+                textSize(15);
+                text(UserName + "#" + Rooms[RoomName].IDs[i], MouseX + 10, MouseY - 10);
+                fill(R, G, B, A);
+                stroke(0, 63);
+                strokeWeight(1);
                 circle(MouseX, MouseY, 5);
             }
         }
+    }
+
+    if (MouseIsOnSketch()) {
+        Socket.emit("Set_Mouse", mouseX, mouseY);
+        Socket.emit("Set_Color", ColorEditor_.Label_Sample.Color.R, ColorEditor_.Label_Sample.Color.G, ColorEditor_.Label_Sample.Color.B, ColorEditor_.Label_Sample.Color.A);
     }
 }
 function mousePressed() {
@@ -5472,17 +5539,6 @@ function MouseOver() {
 
     return false;
 }
-function mouseMoved() {
-    if(MouseIsOnSketch()) {
-        if(ID != null && Users != null && Rooms != null)
-        {
-            if(Users[ID].RoomName != null)
-            {
-                Socket.emit("Mouse", mouseX, mouseY);
-            }
-        }
-    }
-}
 
 function Import_Photo() {
     document.getElementById("Import").click();
@@ -5491,17 +5547,23 @@ function Export_Photo(_Format) {
     const Graphic = createGraphics(PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Width, PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Height);
     Graphic.image(PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Graphic, 0, 0);
     Graphic.save(PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Name + _Format);
-    if(Graphic != null) Graphic.remove();
+    if (Graphic != null) Graphic.remove();
 }
 function Undo_Photo() {
     PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex = Mathf.Clamp(PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex + 1, 0, PhotoEditors[TabBarX_PhotoEditor.Index].History.length - 1);
 
     PhotoEditors[TabBarX_PhotoEditor.Index].Photo = PhotoEditors[TabBarX_PhotoEditor.Index].History[PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex].Copy();
+    PhotoEditors[TabBarX_PhotoEditor.Index].BackgroundPhoto = PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Background();
+
+    Socket.emit("Undo_Image", PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Name);
 }
 function Redo_Photo() {
     PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex = Mathf.Clamp(PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex - 1, 0, PhotoEditors[TabBarX_PhotoEditor.Index].History.length - 1);
 
     PhotoEditors[TabBarX_PhotoEditor.Index].Photo = PhotoEditors[TabBarX_PhotoEditor.Index].History[PhotoEditors[TabBarX_PhotoEditor.Index].HistoryIndex].Copy();
+    PhotoEditors[TabBarX_PhotoEditor.Index].BackgroundPhoto = PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Background();
+
+    Socket.emit("Redo_Image", PhotoEditors[TabBarX_PhotoEditor.Index].Photo.Name);
 }
 
 function Update_PhotoEditor() {
@@ -5547,7 +5609,7 @@ function Update_Pallet() {
 function Update_PaintTool() {
     TabBarY_PaintTool.Height = Height_UI * (TabBarY_PaintTool.Texts.length + 1);
 
-    if(TabBarY_PaintTool.Graphic != null) TabBarY_PaintTool.Graphic.remove();
+    if (TabBarY_PaintTool.Graphic != null) TabBarY_PaintTool.Graphic.remove();
     TabBarY_PaintTool.Graphic = createGraphics(TabBarY_PaintTool.Width - 1, TabBarY_PaintTool.Height - 1);
 
     TabBarY_PaintTool.TabHeight = TabBarY_PaintTool.Height / (TabBarY_PaintTool.Texts.length + 1);
@@ -5555,12 +5617,12 @@ function Update_PaintTool() {
     TabBarY_PaintTool.TabGraphics = new Array(TabBarY_PaintTool.Texts.length);
     TabBarY_PaintTool.TextGraphics = new Array(TabBarY_PaintTool.Texts.length);
     for (let i = 0; i < TabBarY_PaintTool.Texts.length; i++) {
-        if(TabBarY_PaintTool.TabGraphics[i] != null) TabBarY_PaintTool.TabGraphics[i].remove();
+        if (TabBarY_PaintTool.TabGraphics[i] != null) TabBarY_PaintTool.TabGraphics[i].remove();
         TabBarY_PaintTool.TabGraphics[i] = createGraphics(TabBarY_PaintTool.TabWidth, TabBarY_PaintTool.TabHeight - Space_Tab);
-        if(TabBarY_PaintTool.TextGraphics[i] != null) TabBarY_PaintTool.TextGraphics[i].remove();
+        if (TabBarY_PaintTool.TextGraphics[i] != null) TabBarY_PaintTool.TextGraphics[i].remove();
         TabBarY_PaintTool.TextGraphics[i] = createGraphics(TabBarY_PaintTool.TabWidth - Width_Remove - Space_Text, TabBarY_PaintTool.TabHeight);
     }
-    if(TabBarY_PaintTool.AddGraphic != null) TabBarY_PaintTool.AddGraphic.remove();
+    if (TabBarY_PaintTool.AddGraphic != null) TabBarY_PaintTool.AddGraphic.remove();
     TabBarY_PaintTool.AddGraphic = createGraphics(TabBarY_PaintTool.TabWidth, TabBarY_PaintTool.TabHeight - Space_Tab);
 }
 
@@ -5612,27 +5674,27 @@ function Load_Files() {
 
                     const Photo_ = new Photo(Name_Photo, Type_Photo, Width_Photo, Height_Photo, Data1D_Photo);
 
-                    console.log("-----");
-                    console.log(Photo_.Name);
-                    console.log(Photo_.Type);
-                    console.log(Photo_.Width);
-                    console.log(Photo_.Height);
-                    console.log(Photo_.Data1D);
+                    if (PhotoEditors.every(Item => Item.Photo.Name != Photo_.Name)) {
+                        const PhotoEditor_ = new PhotoEditor(
+                            CornerPosX_PhotoEditor,
+                            CornerPosY_PhotoEditor,
+                            Width_PhotoEditor,
+                            Height_PhotoEditor,
+                            Color_LightGray,
+                            InitialZoom,
+                            Photo_,
+                            Photo_.Background()
+                        );
+                        PhotoEditor_.SetIsAvailable(false);
+                        PhotoEditor_.PushUI(RenderQueue_General);
+                        PhotoEditors.push(PhotoEditor_);
+                        TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
 
-                    const PhotoEditor_ = new PhotoEditor(
-                        CornerPosX_PhotoEditor,
-                        CornerPosY_PhotoEditor,
-                        Width_PhotoEditor,
-                        Height_PhotoEditor,
-                        Color_LightGray,
-                        InitialZoom,
-                        Photo_,
-                        Photo_.Background()
-                    );
-                    PhotoEditor_.SetIsAvailable(false);
-                    PhotoEditor_.PushUI(RenderQueue_General);
-                    PhotoEditors.push(PhotoEditor_);
-                    TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
+                        Socket.emit("Create_Image", Photo_.Name, Photo_.Type, Photo_.Width, Photo_.Height, CopyPrimitiveArray1D(Photo_.Data1D));
+                    }
+                    else {
+                        alert("Image already exists.");
+                    }
                 }
 
                 Update_PhotoEditor();
@@ -5864,22 +5926,108 @@ function CopyPrimitiveArray1D(_Array) {
     return Array_;
 }
 
-Socket.on("ID", function(_ID)
-{
-    ID = _ID;
-
-    print("ID: " + ID);
+Socket.on("connect", function () {
+    Socket.emit("Setup");
 });
-Socket.on("Users", function(_Users)
-{
+
+Socket.on("ID", function (_ID) {
+    ID = _ID;
+});
+Socket.on("Users", function (_Users) {
     Users = _Users;
 });
-Socket.on("Rooms", function(_Rooms)
-{
+Socket.on("Rooms", function (_Rooms) {
     Rooms = _Rooms;
 });
 
-Socket.on("Alert", function(_Text)
-{
+Socket.on("Create_Room", function () {
+
+});
+Socket.on("Join_Room", function () {
+
+});
+
+Socket.on("Create_Image", function (_PhotoName, _PhotoType, _PhotoWidth, _PhotoHeight, _PhotoData1D) {
+    const Photo_ = new Photo(_PhotoName, _PhotoType, _PhotoWidth, _PhotoHeight, _PhotoData1D);
+
+    const PhotoEditor_ = new PhotoEditor(
+        CornerPosX_PhotoEditor,
+        CornerPosY_PhotoEditor,
+        Width_PhotoEditor,
+        Height_PhotoEditor,
+        Color_LightGray,
+        InitialZoom,
+        Photo_,
+        Photo_.Background()
+    );
+    PhotoEditor_.SetIsAvailable(false);
+    PhotoEditor_.PushUI(RenderQueue_General);
+    PhotoEditors.push(PhotoEditor_);
+    TabBarX_PhotoEditor.Add(PhotoEditor_.Photo.Name);
+
+    Update_PhotoEditor();
+});
+Socket.on("Update_Image", function (_PhotoName, _PhotoType, _PhotoWidth, _PhotoHeight, _PhotoData1D) {
+    const Photo_ = new Photo(_PhotoName, _PhotoType, _PhotoWidth, _PhotoHeight, _PhotoData1D);
+
+    for (let i = 0; i < PhotoEditors.length; i++) {
+        if (PhotoEditors[i].Photo.Name == _PhotoName) {
+            PhotoEditors[i].Photo = Photo_;
+            PhotoEditors[i].BackgroundPhoto = Photo_.Background();
+
+            PhotoEditors[i].History.splice(PhotoEditors[i].HistoryIndex, 0, PhotoEditors[i].Photo.Copy());
+
+            if (PhotoEditors[i].HistoryIndex != 0) {
+                PhotoEditors[i].History.splice(0, PhotoEditors[i].HistoryIndex);
+
+                PhotoEditors[i].HistoryIndex = 0;
+            }
+
+            if (PhotoEditors[i].History.length > MaxHistory) {
+                PhotoEditors[i].History.splice(PhotoEditors[i].History.length - 1);
+            }
+
+            break;
+        }
+    }
+});
+Socket.on("Undo_Image", function (_PhotoName) {
+    for (let i = 0; i < PhotoEditors.length; i++) {
+        if (PhotoEditors[i].Photo.Name == _PhotoName) {
+            PhotoEditors[i].HistoryIndex = Mathf.Clamp(PhotoEditors[i].HistoryIndex + 1, 0, PhotoEditors[i].History.length - 1);
+
+            PhotoEditors[i].Photo = PhotoEditors[i].History[PhotoEditors[i].HistoryIndex].Copy();
+            PhotoEditors[i].BackgroundPhoto = PhotoEditors[i].Photo.Background();
+
+            break;
+        }
+    }
+});
+Socket.on("Redo_Image", function (_PhotoName) {
+    for (let i = 0; i < PhotoEditors.length; i++) {
+        if (PhotoEditors[i].Photo.Name == _PhotoName) {
+            PhotoEditors[i].HistoryIndex = Mathf.Clamp(PhotoEditors[i].HistoryIndex - 1, 0, PhotoEditors[i].History.length - 1);
+
+            PhotoEditors[i].Photo = PhotoEditors[i].History[PhotoEditors[i].HistoryIndex].Copy();
+            PhotoEditors[i].BackgroundPhoto = PhotoEditors[i].Photo.Background();
+
+            break;
+        }
+    }
+});
+Socket.on("Remove_Image", function (_PhotoName) {
+    for (let i = 0; i < PhotoEditors.length; i++) {
+        if (PhotoEditors[i].Photo.Name == _PhotoName) {
+            TabBarX_PhotoEditor.Remove(i);
+            TabBarX_PhotoEditor.REMOVE(i);
+
+            Update_PhotoEditor();
+
+            break;
+        }
+    }
+});
+
+Socket.on("Alert", function (_Text) {
     alert(_Text);
 });

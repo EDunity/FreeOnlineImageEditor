@@ -2,10 +2,10 @@
   "name": "freeonlineimageeditor",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "Server.js",
   "scripts": 
   {
-    "start": "node server.js"
+    "start": "node Server.js"
   },
   "keywords": [],
   "author": "",
