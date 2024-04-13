@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="http://edunity.s350.xrea.com/Files/Texts/Footer.js"></script>
+    <script type="text/javascript" src="http://edunity.s350.xrea.com/Files/Texts/FramePerSecond.js"></script>
     <script type="text/javascript" src="/public/Files/Texts/FreeOnlineImageEditor.js"></script>
     <link type="text/css" rel="stylesheet" href="/public/Files/Texts/Style.css">
 </head>
@@ -17,6 +19,182 @@
         <input type="file" id="Import" accept="image/png, image/jpg, image/jpeg, image/webp" multiple onclick="Clear_FilePath()" onchange="Load_Files()" style="display:none;">
     </div>
     <hr>
+    <div class="Parent" style="margin-top:128px;margin-bottom:128px;">
+        <div class="Child Description">
+            <h3>使い方</h3>
+            <div class="DescriptionText">
+                <p>このツールの使い方です。</p>
+                <table>
+                    <tr>
+                        <td>ホイールドラッグ</td>
+                        <td>:</td>
+                        <td>画像を移動</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl + S</td>
+                        <td>:</td>
+                        <td>画像をエクスポート</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl + Z</td>
+                        <td>:</td>
+                        <td>取り消し</td>
+                    </tr>
+                    <tr>
+                        <td>Ctrl + Y</td>
+                        <td>:</td>
+                        <td>やり直し</td>
+                    </tr>
+                </table>
+                <ul>
+                    <li>Pencil</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>点を配置</td>
+                        </tr>
+                    </table>
+                    <li>Line</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>直線を配置</td>
+                        </tr>
+                    </table>
+                    <li>Rect</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>四角形を配置</td>
+                        </tr>
+                    </table>
+                    <li>Circle</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>円を配置</td>
+                        </tr>
+                    </table>
+                    <li>Brush</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>ブラシ</td>
+                        </tr>
+                    </table>
+                    <li>Bucket</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>色を抽出</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>塗りつぶし</td>
+                        </tr>
+                    </table>
+                    <li>Select</li>
+                    <table>
+                        <tr>
+                            <td>右クリック</td>
+                            <td>:</td>
+                            <td>範囲を移動</td>
+                        </tr>
+                        <tr>
+                            <td>左クリック</td>
+                            <td>:</td>
+                            <td>範囲を選択</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + A</td>
+                            <td>:</td>
+                            <td>全範囲を選択</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + G</td>
+                            <td>:</td>
+                            <td>選択した範囲を塗りつぶし</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + C</td>
+                            <td>:</td>
+                            <td>選択した範囲をコピー</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + V</td>
+                            <td>:</td>
+                            <td>コピーした範囲をペースト</td>
+                        </tr>
+                        <tr>
+                            <td>Ctrl + D</td>
+                            <td>:</td>
+                            <td>コピーした範囲を元に画像を作成</td>
+                        </tr>
+                    </table>
+                </ul>
+            </div>
+            <h3>注意事項</h3>
+            <div class="DescriptionText">
+                <ul>
+                    <li>PNG、JPG、JPEG、WEBP以外の拡張子をインポートすることはできません。</li>
+                    <li>PNG、JPG、JPEG、WEBP以外の拡張子をエクスポートすることはできません。</li>
+                    <li>インポートしたファイルやその編集内容がサーバに保存されることはありません。</li>
+                    <li>ページをリロードすると、編集内容が消去されます。</li>
+                </ul>
+            </div>
+            <h3>ライセンス</h3>
+            <div class="DescriptionText">
+                <p>このウェブサイトは<a href="https://opensource.org/license/mit/" target="_blank">MIT</a>ライセンスで配布されている成果物を含んでいます。</p>
+            </div>
+            <h3>更新履歴</h3>
+            <div class="DescriptionText">
+                <ul>
+                    <li>2023/10/07</li>
+                    <p>サービス開始</p>
+                    <li>2024/03/25</li>
+                    <p>PNG、JPG、JPEG、WEBPの拡張子に対応</p>
+                    <li>2024/03/30</li>
+                    <p>Selectツールを追加</p>
+                    <p>4096x4096の画像サイズまで対応</p>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div id="Footer">
+    </div>
 </body>
 
 </html>
