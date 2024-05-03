@@ -2605,10 +2605,10 @@ class PhotoEditor extends UI {
                 if (PaintTools.length > 0) {
                     if (PaintTools[TabBarY_PaintTool.Index].PaintToolID == PaintToolID_Select) {
                         if (PaintTools[TabBarY_PaintTool.Index].Index2s.length > 0) {
-                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y < Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
-                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X > Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y > Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X < Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y < Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X > Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y > Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
 
                             const MinPosX = this.PosX_(MinIndexX) - this.InitialZoom * 0.5;
                             const MinPosY = this.PosY_(MinIndexY) - this.InitialZoom * 0.5;
@@ -3059,10 +3059,10 @@ class PhotoEditor extends UI {
                     }
                     if (this.KeyStates["g"]) {
                         if (PaintTools[TabBarY_PaintTool.Index].Index2s.length > 0) {
-                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y < Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
-                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X > Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y > Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X < Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y < Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X > Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y > Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
 
                             this.Photo.SelectedFill(MinIndexX, MinIndexY, MaxIndexX, MaxIndexY, ColorEditor_.Label_Sample.Color.Copy());
 
@@ -3071,10 +3071,10 @@ class PhotoEditor extends UI {
                     }
                     else if (this.KeyStates["c"]) {
                         if (PaintTools[TabBarY_PaintTool.Index].Index2s.length > 0) {
-                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y < Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
-                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X > Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y > Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X < Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y < Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MaxIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X > Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MaxIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y > Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
 
                             PaintTools[TabBarY_PaintTool.Index].Photo = this.Photo.Crop(MinIndexX, MinIndexY, MaxIndexX, MaxIndexY);
                             PaintTools[TabBarY_PaintTool.Index].Photo.Name = PaintTools[TabBarY_PaintTool.Index].Photo.Name + "_part"
@@ -3082,8 +3082,8 @@ class PhotoEditor extends UI {
                     }
                     else if (this.KeyStates["v"]) {
                         if (PaintTools[TabBarY_PaintTool.Index].Photo.HasData()) {
-                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.X < Item1.X ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
-                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Item1, Item2) => { return Item2.Y < Item1.Y ? Item2 : Item1; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
+                            const MinIndexX = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.X < Acc.X ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).X;
+                            const MinIndexY = PaintTools[TabBarY_PaintTool.Index].Index2s.reduce((Acc, Item) => { return Item.Y < Acc.Y ? Item : Acc; }, PaintTools[TabBarY_PaintTool.Index].Index2s[0]).Y;
 
                             this.Photo = this.Photo.Place(PaintTools[TabBarY_PaintTool.Index].Photo, MinIndexX, MinIndexY);
 
@@ -3145,8 +3145,11 @@ class PhotoEditor extends UI {
         this.IsCenterReleased();
 
         if (PaintTools.length > 0) {
-            PaintTools[TabBarY_PaintTool.Index].Index2s = [];
-            PaintTools[TabBarY_PaintTool.Index].Pos2s = [];
+            if(PaintTools[TabBarY_PaintTool.Index].PaintToolID != PaintToolID_Select)
+            {
+                PaintTools[TabBarY_PaintTool.Index].Index2s = [];
+                PaintTools[TabBarY_PaintTool.Index].Pos2s = [];
+            }
         }
     }
     Save() {
